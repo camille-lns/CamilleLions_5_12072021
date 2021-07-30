@@ -38,7 +38,7 @@
     </header>
 
     <div id="main">
-        <div class="card">
+        <div class="card ultralightbrown">
             <div class="row">
                 <div class="col" id="productIMG">
                     
@@ -46,18 +46,32 @@
                 </div>
 
                 <div class="col">
-                    <div class="card-body">
-                        <div id="productNAME">
-                            
-                        </div>
-                        <div>
+                    <div class="card-body d-flex flex-column justify-content-between heightProductBox">
+                        <div id="txt">
+                            <div id="productNAME"></div>
                             <div id="productDESCR"></div>
-
                             <div id="productPrice"></div>
+                        </div>
+                        <div id="prixqunty">
                             <div class="row">
-                                <select id="lentille" class="col-4 form-select" ></select>
-                                <div id="quantity" class="col-4">quantité</div>
-                                <div id="add" class="col-4">Ajouter</div>
+                                <div class="col-lg-4">
+                                    <select id="lentille" class="form-select">
+                                        <option value="">Lentille</option>
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <select id="quantity" class="form-select">
+                                        <option value="">Quantité</option>
+                                        <option value = "1">1</option>
+                                        <option value = "2">2</option>
+                                        <option value = "3">3</option>
+                                        <option value = "4">4</option>
+                                        <option value = "5">5</option>
+                                    </select>
+                                </div>
+                                <div class="col-4 ">
+                                    <button id="add" class="width100 btn btn-dark text-nowrap" type="submit" disabled>Ajouter</button>
+                                </div>
                             </div>
                         </div>
                     </div>

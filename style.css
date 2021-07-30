@@ -29,3 +29,12 @@ a {
 .link {
     font-size: 1em;
 }
+
+.heightProductBox {
+    height: 100%;
+}
+
+.width100 {
+    width: 100%;
+    display: block;
+}
