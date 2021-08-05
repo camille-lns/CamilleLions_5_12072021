@@ -38,3 +38,22 @@ a {
     width: 100%;
     display: block;
 }
+
+hr {
+    height: 3px!important;
+}
+
+#supprimer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#supprimer p {
+    margin: 0;
+}
+
+#total {
+    text-align: end;
+}
+

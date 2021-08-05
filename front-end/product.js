@@ -3,6 +3,15 @@ const productId = searchProduct.get('_id');
 
 const newIdUrl = `http://localhost:3000/api/cameras/${productId}`;
 
+let objProduit = {
+    name: '',
+    price: 0,
+    quantity: 0,
+    id: '',
+    lenses: '',
+    img: ''
+}
+
 fetch(newIdUrl) 
 .then (function(res) {
     if (res.ok) {
@@ -12,12 +21,15 @@ fetch(newIdUrl)
 
 .then (function(produit) {
     addProductInfo(produit);
+    objProduitInfo(produit);
+    
 })
 
 .catch (function(error) {
     console.log(error);
 });
 
+// afficher le produit sur la page 
 function addProductInfo(produit) {
     const productImage = document.getElementById('productIMG'); 
     productImage.innerHTML += `<img src="${produit.imageUrl}" class="sepia img-fluid img-thumbnail ultralightbrown">`;
@@ -41,6 +53,27 @@ function chooseLenses(product) {
     }
 }
 
+// attribuer la quantité à ObjProduit
+document.getElementById('quantity')
+        .addEventListener('change', function(event) {
+            objProduit.quantity = event.target.value;
+        })
+
+// attribuer la lentille à ObjProduit
+document.getElementById('lentille')
+        .addEventListener('change', function(event) {
+            objProduit.lenses = event.target.value; 
+        })
+
+// garder en mémoire les infos du produit pour envoyer vers local storage
+function objProduitInfo(produit) {
+    objProduit.name = produit.name;
+    objProduit.price = produit.price;
+    objProduit.id = produit._id;
+    objProduit.img = produit.imageUrl;
+}
+
+
 const btn = document.getElementById('add');
 let selected = [];
 
@@ -60,9 +93,11 @@ for (let i = 0; i < document.querySelectorAll('select').length; i++) {
         } else {
             btn.disabled = false; 
         }
-        console.log(selector.value);
     })
 }
 
+btn.addEventListener('click', function() {
+    localStorage.setItem(objProduit.id, JSON.stringify(objProduit));
+})
 
 
