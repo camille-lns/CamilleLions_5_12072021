@@ -25,7 +25,7 @@ function addProduit(produit, i) {
             <h3 class="card-title">${produit.name}</h3> 
             <h4>${produit.price}</h4>
             <p class="card-text">${produit.description}</p>
-            <a href="/front-end/product.html?_id=${produit._id}" class="card-link link">Plus d'informations</a>
+            <a href="/front-end/product.html?_id=${produit._id}" class="card-link link">Acheter ce produit</a>
         </div>
     </div>
 </div>`;

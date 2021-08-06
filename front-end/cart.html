@@ -11,6 +11,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
         <script src="product.js"  defer></script>
+        <script src="cart.js" defer></script>
+
         <link rel="stylesheet" href="../style.css">
 
         <title>Orinocamera</title>
@@ -39,43 +41,10 @@
             <div class="panier">
                 <h2>Votre panier</h2>
                 <hr>
-                <div class="card ultralightbrown marge">
-                    <div class="row justify-content-start">
-                        <div class="col-3 " id="prodImg">
-                            <!-- Insertion de l'image -->
-                            <img src="/back-end/images/vcam_1.jpg" class="sepia img-thumbnail ultralightbrown">
-                        </div>
+                <div id="productDisplay">
 
-                        <div class="col">
-                            <div class="card-body d-flex flex-column justify-content-between heightProductBox">
-                                <div id="texte">
-                                    <div id="nameproduct">
-                                        <!-- Insertion du nom du produit -->
-                                        <h3>Caméra ici</h3>
-                                    </div>
-                                    <div id="priceproduct">
-                                        <!-- Insertion du prix du produit -->
-                                        <h4>1 032€</h4>
-                                    </div>
-                                    <div id="lenseproduct">
-                                        <!-- Insertion de la lentille choisie -->
-                                        <p class="card-text">Lentille choisie ici</p>
-                                    </div>
-                                </div>
-                                <div id="suppr" class="row">
-                                    <div id="quantityproduct" class="col-6">
-                                        <select id="lentille" class="form-select">
-                                            <option value="">Quantité</option>
-                                        </select>
-                                    </div>
-                                    <div id="supprimer" class="col-6">
-                                        <p>Supprimer</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+                
                 <div id="total">
                     <h2>Total</h2>
                 </div>
