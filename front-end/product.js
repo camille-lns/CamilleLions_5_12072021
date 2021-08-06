@@ -10,7 +10,7 @@ let objProduit = {
     id: '',
     lenses: '',
     img: ''
-}
+};
 
 fetch(newIdUrl) 
 .then (function(res) {
@@ -22,11 +22,10 @@ fetch(newIdUrl)
 .then (function(produit) {
     addProductInfo(produit);
     objProduitInfo(produit);
-    
 })
 
 .catch (function(error) {
-    console.log(error);
+    console.error(error);
 });
 
 // afficher le produit sur la page 
@@ -46,9 +45,9 @@ function addProductInfo(produit) {
     chooseLenses(produit);
 }
 
-function chooseLenses(product) {
+function chooseLenses(produit) {
     const specLenses = document.getElementById('lentille');
-    for (let lenses of product.lenses) {
+    for (let lenses of produit.lenses) {
         specLenses.innerHTML += `<option value="${lenses}">${lenses}</option>`;
     }
 }
@@ -73,13 +72,11 @@ function objProduitInfo(produit) {
     objProduit.img = produit.imageUrl;
 }
 
-
 const btn = document.getElementById('add');
 let selected = [];
 
 for (let i = 0; i < document.querySelectorAll('select').length; i++) {
     let selector = document.querySelectorAll('select')[i];
-
     selected[i] = false;
 
     selector.addEventListener('click', function() {
@@ -97,7 +94,13 @@ for (let i = 0; i < document.querySelectorAll('select').length; i++) {
 }
 
 btn.addEventListener('click', function() {
-    localStorage.setItem(objProduit.id, JSON.stringify(objProduit));
+    let retrievedObject = JSON.parse(localStorage.getItem('cart'));
+    let cart;
+    if(!retrievedObject) {
+        cart = [objProduit];
+    } else {
+        retrievedObject.push(objProduit);
+        cart = retrievedObject;
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
 })
-
-
