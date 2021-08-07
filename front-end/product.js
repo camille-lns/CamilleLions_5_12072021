@@ -40,7 +40,7 @@ function addProductInfo(produit) {
     productDescr.innerHTML += `<p class="card-text">${produit.description}</p>`;
 
     const productPrice = document.getElementById('productPrice'); 
-    productPrice.innerHTML += `<h4>${produit.price}</h4>`;
+    productPrice.innerHTML += `<h4>${produit.price/100} €</h4>`;
 
     chooseLenses(produit);
 }

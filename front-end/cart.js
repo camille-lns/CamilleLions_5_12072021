@@ -1,11 +1,12 @@
 let myCart = JSON.parse(localStorage.getItem('cart'));
+let total = 0;
 
 for (elt of myCart) {
     displayProduct(elt);
+    total += (elt.price * elt.quantity)/100;
 }
 
-
-
+// afficher un produit dans le panier
 function displayProduct(elt) {
     document.getElementById("productDisplay").innerHTML += ` <div class="card ultralightbrown marge">
     <div class="row justify-content-start">
@@ -23,7 +24,7 @@ function displayProduct(elt) {
                     </div>
                     <div id="priceproduct">
                         <!-- Insertion du prix du produit -->
-                        <h4>${elt.price} </h4>
+                        <h4>${elt.price/100} € </h4>
                     </div>
                     <div id="lenseproduct">
                         <!-- Insertion de la lentille choisie -->
@@ -45,3 +46,6 @@ function displayProduct(elt) {
     </div>
 </div> `
 }
+
+// afficher le total
+document.getElementById("totalPrice").innerHTML = `${total} € `

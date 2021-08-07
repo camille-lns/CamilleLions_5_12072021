@@ -54,6 +54,11 @@ hr {
 }
 
 #total {
-    text-align: end;
+    display: flex;
+    justify-content: flex-end;
 }
 
+#totalPrice {
+    font-size: 27px;
+    padding-left: 20px;
+}
