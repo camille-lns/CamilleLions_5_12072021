@@ -49,3 +49,39 @@ function displayProduct(elt) {
 
 // afficher le total
 document.getElementById("totalPrice").innerHTML = `${total} € `
+
+
+const confBtn = document.getElementById('conf'); 
+confBtn.addEventListener('click', function() {
+
+    document.getElementById('userInfo').innerHTML = `<div class="col-md-4 my-4">
+    <label for="validation01" class="form-label">Prénom</label>
+    <input type="text" class="form-control" id="firstName" placeholder="Pierre" required="">
+</div>
+<div class="col-md-4 my-4">
+    <label for="validation02" class="form-label">Nom</label>
+    <input type="text" class="form-control" id="lastName" placeholder="Dupont" required="">
+</div>
+<div class="col-md-4 my-4">
+    <label for="validationUsername" class="form-label">Email</label>
+    <div class="input-group has-validation">
+        <span class="input-group-text" id="inputEmail">@</span>
+        <input type="text" class="form-control" id="email" placeholder="pierredupont@gmail.com" required="">
+    </div>
+</div>
+<div class="col-md-6 mb-4">
+    <label for="validation03" class="form-label">Adresse</label>
+    <input type="text" class="form-control" id="address" placeholder="10 rue de la paix" required="">
+</div>
+<div class="col-md-3 mb-4">
+    <label for="validation04" class="form-label">Ville</label>
+    <input type="text" class="form-control" id="city" placeholder="Paris" required="">
+</div>
+
+<div class="text-center mt-5 d-md-flex justify-content-md-end">
+    <div class="col-12 col-sm-6 ">
+        <button type="submit" class="btn btn-secondary" id="order">Passer la commande</button>
+    </div>
+
+</div>`
+})
