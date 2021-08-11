@@ -1,16 +1,13 @@
 let myCart = JSON.parse(localStorage.getItem('cart'));
 let total = 0;
-let idx = 0;
 
 console.log(myCart);
 
-for (elt of myCart) {
-    displayProduct(elt, idx);
-    total += (elt.price * elt.quantity)/100;
-    idx++;
+for (let idx=0; idx < myCart.length; idx++) {
+    displayProduct(myCart[idx], idx);
+    total += (myCart[idx].price * myCart[idx].quantity)/100;
 }
 
-addEvListener();
 
 // afficher un produit dans le panier
 function displayProduct(elt, idx) {
@@ -31,9 +28,9 @@ function displayProduct(elt, idx) {
                                 <h3>${elt.name}</h3>
                             </div>
 
-                            <div>
+                            <div id="priceproduct${idx}">
                                 <!-- Insertion du prix du produit -->
-                                <h4 id="priceproduct${idx}">${elt.price/100}</h4><h4>€</h4>
+                                <h4>${elt.price/100}€</h4>
                             </div>
 
                             <div id="lenseproduct${idx}">
@@ -49,39 +46,34 @@ function displayProduct(elt, idx) {
                                 </select>
                             </div>
 
-                            <div id="supprimer${idx}" class="col-6">
-                                <p>Supprimer</p>
-                            </div>
+                            <button id="supprimer${idx}" class="col-6">
+                                Supprimer
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div> `;
-
+    
+    addEvListener(idx);
 };
 
 
 //supprimer un produit 
-function addEvListener() {
-    for (idx = 0; idx < myCart.length ; idx++) { 
-        let suppression = document.getElementById(`supprimer${idx}`);
-        let carteProduit= document.getElementById(`carteProduit${idx}`);
-        suppression.addEventListener('click', function() {
-            carteProduit.innerHTML = ``;
-
-        })
-    }
-
-}
-
-
-
+function addEvListener(idx) { 
+        document.getElementById(`supprimer${idx}`)
+            .addEventListener('click', function() {
+                total -= myCart[idx].price/100;
+                document.getElementById(`carteProduit${idx}`).innerHTML = ``;
+                document.getElementById("totalPrice").innerHTML = `${total} € `;
+            });
+};
 
 
 
 // afficher le total
-document.getElementById("totalPrice").innerHTML = `${total} € `
+document.getElementById("totalPrice").innerHTML = `${total} € `;
 
 
 const confBtn = document.getElementById('conf'); 
@@ -101,19 +93,19 @@ confBtn.addEventListener('click', function() {
 <div class="col-md-4 my-4">
     <label for="validationUsername" class="form-label">Email</label>
     <div class="input-group has-validation">
-        <span class="input-group-text" id="inputEmail">@</span>
+        <span class="input-group-text" id="Email">@</span>
         <input type="text" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\.[a-z]{2,4}$" class="form-control" id="email" placeholder="pierredupont@gmail.com" required="">
     </div>
 </div>
 
 <div class="col-md-6 mb-4">
     <label for="validation03" class="form-label">Adresse</label>
-    <input type="text" pattern="([a-zA-Z0-9]| |/|\\|@|#|\$|%|&)+" class="form-control" id="address" placeholder="10 rue de la paix" required="">
+    <input type="text" pattern="^(([a-zA-ZÀ-ÿ0-9]+[\s\-]{1}[a-zA-ZÀ-ÿ0-9]+)){1,40}$" class="form-control" id="address" placeholder="10 rue de la paix" required="">
 </div>
 
 <div class="col-md-3 mb-4">
     <label for="validation04" class="form-label">Ville</label>
-    <input type="text" pattern="^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+))$" class="form-control" id="city" placeholder="Paris" required="">
+    <input type="text" pattern="^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+)){1,10}$" class="form-control" id="city" placeholder="Paris" required="">
 </div>
 
 <div class="text-center mt-5 d-md-flex justify-content-md-end">
@@ -123,3 +115,39 @@ confBtn.addEventListener('click', function() {
 
 </div>`
 })
+
+/*
+// validation du formulaire 
+const order = document.getElementById("conf");
+const regexName = /^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+))$/;
+const regexCity = /^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+)){1,10}$/;
+const regexMail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\.[a-z]{2,4}$/;
+const regexAddress = /^(([a-zA-ZÀ-ÿ0-9]+[\s\-]{1}[a-zA-ZÀ-ÿ0-9]+)){1,40}$/;
+
+order.addEventListener("click", (event) => {
+    // on prépare les infos pour l'envoie en POST
+    let contact = {
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        address: document.getElementById("address").value,
+        city: document.getElementById("city").value,
+        email: document.getElementById("email").value,
+    };
+
+    // vérification du formulaire de contact
+    if (
+        (regexMail.test(contact.email) == true) &
+        (regexName.test(contact.firstName) == true) &
+        (regexName.test(contact.lastName) == true) &
+        (regexCity.test(contact.city) == true) &
+        (regexAddress.test(contact.address) == true)
+    ) {
+        event.preventDefault();
+
+        // envoyer les infos en POST
+
+    } else {
+        alert("Merci de renseigner le formulaire entier.");
+    }
+});
+*/

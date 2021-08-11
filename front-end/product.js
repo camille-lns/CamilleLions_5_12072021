@@ -55,7 +55,8 @@ function chooseLenses(produit) {
 // attribuer la quantité à ObjProduit
 document.getElementById('quantity')
         .addEventListener('change', function(event) {
-            objProduit.quantity = event.target.value;
+            let qty = event.target.value;
+            objProduit.quantity = parseInt(qty);
         })
 
 // attribuer la lentille à ObjProduit
@@ -104,6 +105,7 @@ btn.addEventListener('click', function() {
     }
     localStorage.setItem('cart', JSON.stringify(cart));
 })
+
 
 // message de confirmation d'ajout au panier
 var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
