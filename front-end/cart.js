@@ -116,7 +116,7 @@ confBtn.addEventListener('click', function() {
 </div>`
 })
 
-/*
+
 // validation du formulaire 
 const order = document.getElementById("conf");
 const regexName = /^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+))$/;
@@ -141,13 +141,31 @@ order.addEventListener("click", (event) => {
         (regexName.test(contact.lastName) == true) &
         (regexCity.test(contact.city) == true) &
         (regexAddress.test(contact.address) == true)
-    ) {
+    ) 
+    {
         event.preventDefault();
 
         // envoyer les infos en POST
+        fetch(`http://localhost:3000/api/cameras/order` , {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify(order),
+        })
+        .then(function(res){
+            if (res.ok)
+                return res.json();
+        })
+        .then(function (conf){
+            localStorage.setItem('validation',JSON.stringify(conf));
+            window.location.replace("validation.html"); // change de page
+        })
+        .catch(function(error){
+            console.log(error);
+        })
 
     } else {
         alert("Merci de renseigner le formulaire entier.");
     }
-});
-*/
+})
