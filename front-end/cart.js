@@ -12,41 +12,41 @@ for (let idx=0; idx < myCart.length; idx++) {
 // afficher un produit dans le panier
 function displayProduct(elt, idx) {
     document.getElementById("productDisplay").innerHTML += ` 
-    <div id="carteProduit${idx}">
+    <div id="carteProduit${idx}" class="carteProduit">
         <div class="card ultralightbrown marge">
             <div class="row justify-content-start">
-                <div class="col-3 " id="prodImg${idx}">
+                <div class="col-3 ">
                     <!-- Insertion de l'image -->
                     <img src="${elt.img}" class="sepia img-thumbnail ultralightbrown">
                 </div>
 
                 <div class="col">
                     <div class="card-body d-flex flex-column justify-content-between heightProductBox">
-                        <div id="texte${idx}">
-                            <div id="nameproduct${idx}">
+                        <div>
+                            <div>
                                 <!-- Insertion du nom du produit -->
                                 <h3>${elt.name}</h3>
                             </div>
 
-                            <div id="priceproduct${idx}">
+                            <div>
                                 <!-- Insertion du prix du produit -->
                                 <h4>${elt.price/100}€</h4>
                             </div>
 
-                            <div id="lenseproduct${idx}">
+                            <div>
                                 <!-- Insertion de la lentille choisie -->
                                 <p class="card-text">${elt.lenses} </p>
                             </div>
                         </div>
 
-                        <div id="suppr${idx}" class="row">
-                            <div id="quantityproduct${idx}" class="col-6">
-                                <select id="lentille${idx}" class="form-select">
+                        <div class="row">
+                            <div class="col-6">
+                                <select class="form-select">
                                     <option selected="${elt.quantity}">${elt.quantity}</option>
                                 </select>
                             </div>
 
-                            <button id="supprimer${idx}" class="col-6">
+                            <button id="supprimer${idx}" class="col-6 supprimer">
                                 Supprimer
                             </button>
                         </div>
@@ -57,20 +57,34 @@ function displayProduct(elt, idx) {
     </div> `;
     
     addEvListener(idx);
+
 };
 
 
 //supprimer un produit 
 function addEvListener(idx) { 
-        document.getElementById(`supprimer${idx}`)
-            .addEventListener('click', function() {
+    document.addEventListener('click', function(e) {
+            if(e.target && e.target.id == `supprimer${idx}`) {
                 total -= myCart[idx].price/100;
-                document.getElementById(`carteProduit${idx}`).innerHTML = ``;
+                document.getElementById(`carteProduit${idx}`).remove();
                 document.getElementById("totalPrice").innerHTML = `${total} € `;
-            });
+                myCart.splice(idx, 1); 
+                localStorage.removeItem('cart');
+                localStorage.setItem('cart', JSON.stringify(myCart));
+                modifyIdx();
+            }
+    });
 };
 
+function modifyIdx() {
+    for (i = 0; i < myCart.length; i++) {
+        let carteProd = document.querySelectorAll(`.carteProduit`)[i]; 
+        carteProd.setAttribute('id', `carteProduit`+i); 
+        let btnSuppr = document.querySelectorAll(`.supprimer`)[i]; 
+        btnSuppr.setAttribute('id', `supprimer`+i);
 
+    }
+}
 
 // afficher le total
 document.getElementById("totalPrice").innerHTML = `${total} € `;
@@ -146,7 +160,7 @@ order.addEventListener("click", (event) => {
         event.preventDefault();
 
         // envoyer les infos en POST
-        fetch(`http://localhost:3000/api/cameras/order` , {
+        fetch(`http://localhost:3000/api/cameras/order`, {
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
