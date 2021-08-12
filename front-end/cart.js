@@ -96,30 +96,30 @@ confBtn.addEventListener('click', function() {
     document.getElementById('userInfo').innerHTML = `
 <div class="col-md-4 my-4">
     <label for="validation01" class="form-label">Prénom</label>
-    <input type="text" pattern="^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+))$" class="form-control" id="firstName" placeholder="Pierre" required="">
+    <input type="text" class="form-control" id="firstName" placeholder="Pierre" required="">
 </div>
 
 <div class="col-md-4 my-4">
     <label for="validation02" class="form-label">Nom</label>
-    <input type="text" pattern="^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+))$" class="form-control" id="lastName" placeholder="Dupont" required="">
+    <input type="text" class="form-control" id="lastName" placeholder="Dupont" required="">
 </div>
 
 <div class="col-md-4 my-4">
     <label for="validationUsername" class="form-label">Email</label>
     <div class="input-group has-validation">
         <span class="input-group-text" id="Email">@</span>
-        <input type="text" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\.[a-z]{2,4}$" class="form-control" id="email" placeholder="pierredupont@gmail.com" required="">
+        <input type="text" class="form-control" id="email" placeholder="pierredupont@gmail.com" required="">
     </div>
 </div>
 
 <div class="col-md-6 mb-4">
     <label for="validation03" class="form-label">Adresse</label>
-    <input type="text" pattern="^(([a-zA-ZÀ-ÿ0-9]+[\s\-]{1}[a-zA-ZÀ-ÿ0-9]+)){1,40}$" class="form-control" id="address" placeholder="10 rue de la paix" required="">
+    <input type="text" class="form-control" id="address" placeholder="10 rue de la paix" required="">
 </div>
 
 <div class="col-md-3 mb-4">
     <label for="validation04" class="form-label">Ville</label>
-    <input type="text" pattern="^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+)){1,10}$" class="form-control" id="city" placeholder="Paris" required="">
+    <input type="text" class="form-control" id="city" placeholder="Paris" required="">
 </div>
 
 <div class="text-center mt-5 d-md-flex justify-content-md-end">
@@ -132,54 +132,62 @@ confBtn.addEventListener('click', function() {
 
 
 // validation du formulaire 
-const order = document.getElementById("conf");
+const order = document.getElementById("order");
 const regexName = /^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+))$/;
 const regexCity = /^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+)){1,10}$/;
 const regexMail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\.[a-z]{2,4}$/;
 const regexAddress = /^(([a-zA-ZÀ-ÿ0-9]+[\s\-]{1}[a-zA-ZÀ-ÿ0-9]+)){1,40}$/;
 
-order.addEventListener("click", (event) => {
-    // on prépare les infos pour l'envoie en POST
-    let contact = {
-        firstName: document.getElementById("firstName").value,
-        lastName: document.getElementById("lastName").value,
-        address: document.getElementById("address").value,
-        city: document.getElementById("city").value,
-        email: document.getElementById("email").value,
-    };
+document.addEventListener("click", (e) => {
+    if(e.target && e.target.id == `order`) {
+        e.preventDefault();
+        // on prépare les infos pour l'envoie en POST
+        let contact = {
+            firstName: document.getElementById("firstName").value,
+            lastName: document.getElementById("lastName").value,
+            address: document.getElementById("address").value,
+            city: document.getElementById("city").value,
+            email: document.getElementById("email").value,
+        };
 
-    // vérification du formulaire de contact
-    if (
-        (regexMail.test(contact.email) == true) &
-        (regexName.test(contact.firstName) == true) &
-        (regexName.test(contact.lastName) == true) &
-        (regexCity.test(contact.city) == true) &
-        (regexAddress.test(contact.address) == true)
-    ) 
-    {
-        event.preventDefault();
+        // vérification du formulaire de contact
+        if (
+            (regexMail.test(contact.email) == true) &
+            (regexName.test(contact.firstName) == true) &
+            (regexName.test(contact.lastName) == true) &
+            (regexCity.test(contact.city) == true) &
+            (regexAddress.test(contact.address) == true)
+        ) {
+            localStorage.setItem(`contactClient`, JSON.stringify(contact))   
+            const order = {
+                "cart" : JSON.parse(localStorage.cart),
+                "contact" : JSON.parse(localStorage.contactClient)
+            }
+            
+            // envoyer les infos en POST
+            fetch(`http://localhost:3000/api/cameras/order`, {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(order),
+            })
+            .then(function(res){
+                if (res.ok)
+                    return res.json();
+            })
+            .then(function(){
+                alert("success");
+                // localStorage.setItem('validation',JSON.stringify());
+                // window.location.replace("validation.html"); // change de page
+            })
+            .catch(function(error){
+                console.log(error);
+            })
 
-        // envoyer les infos en POST
-        fetch(`http://localhost:3000/api/cameras/order`, {
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify(order),
-        })
-        .then(function(res){
-            if (res.ok)
-                return res.json();
-        })
-        .then(function (conf){
-            localStorage.setItem('validation',JSON.stringify(conf));
-            window.location.replace("validation.html"); // change de page
-        })
-        .catch(function(error){
-            console.log(error);
-        })
-
-    } else {
-        alert("Merci de renseigner le formulaire entier.");
+        } else {
+            alert("Merci de renseigner le formulaire entier.");
+        }
     }
+    
 })
