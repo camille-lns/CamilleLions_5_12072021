@@ -1,11 +1,12 @@
 let myCart = JSON.parse(localStorage.getItem('cart'));
 let total = 0;
-
-console.log(myCart);
+let tableauDeProduits = [];
 
 for (let idx=0; idx < myCart.length; idx++) {
     displayProduct(myCart[idx], idx);
     total += (myCart[idx].price * myCart[idx].quantity)/100;
+    tableauDeProduits.push(myCart[idx].id);
+    
 }
 
 
@@ -158,11 +159,13 @@ document.addEventListener("click", (e) => {
             (regexCity.test(contact.city) == true) &
             (regexAddress.test(contact.address) == true)
         ) {
-            localStorage.setItem(`contactClient`, JSON.stringify(contact))   
+            localStorage.setItem(`contactClient`, JSON.stringify(contact))  
+
             const order = {
-                "cart" : JSON.parse(localStorage.cart),
+                "products" : tableauDeProduits,
                 "contact" : JSON.parse(localStorage.contactClient)
             }
+            console.log(order);
             
             // envoyer les infos en POST
             fetch(`http://localhost:3000/api/cameras/order`, {
@@ -176,9 +179,9 @@ document.addEventListener("click", (e) => {
                 if (res.ok)
                     return res.json();
             })
-            .then(function(){
-                alert("success");
-                // localStorage.setItem('validation',JSON.stringify());
+            .then(function(info){
+                // alert("success");
+                localStorage.setItem('validation', JSON.stringify(info));
                 // window.location.replace("validation.html"); // change de page
             })
             .catch(function(error){
