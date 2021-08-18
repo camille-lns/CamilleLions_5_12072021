@@ -1,12 +1,11 @@
 function confirmationCommande(){
     if (localStorage.length == 0)
     {
-        document.getElementsByTagName("confirmation")[0].innerHTML=""; 
+        document.getElementById("confirmation").innerHTML = `Oups.`;
     }
     else{
         let validation = localStorage.getItem('validation');
         validation = JSON.parse(validation);
-        console.log(validation);
         conf(validation);
         }
 };
@@ -14,9 +13,15 @@ function confirmationCommande(){
 
 
 function conf(valid) {
-    document.getElementById("orderId").innerHTML = `Nous vous remercions pour votre commande n°<b>${valid.orderId}</b>.`;
-    document.getElementById("infoClient").innerHTML = `Elle vous sera livrée au nom de <b>${valid.contact.lastName} ${valid.contact.firstName}</b>, à l'adresse <b>${valid.contact.address} - ${valid.contact.city}</b>.`;
-    document.getElementById("mail").innerText = `Une confirmation vous a été envoyé par mail à l'adresse ${valid.contact.email}.`
+    document.getElementById("confirmation").innerHTML = `
+    <h2>Félicitation ! Votre commande est confirmée. </h2><br>
+    <p id="orderId">Nous vous remercions pour votre commande n°<b>${valid.orderId}</b>.</p>
+    <p id="infoClient">Elle vous sera livrée au nom de <b>${valid.contact.lastName} ${valid.contact.firstName}</b>, 
+        à l'adresse <b>${valid.contact.address} - ${valid.contact.city}</b>.</p>
+    <p id="mail">Une confirmation vous a été envoyé par mail à l'adresse ${valid.contact.email}.</p><br>
+    <p>À bientôt sur notre site !</p>
+    `
+
 ;};
 
 

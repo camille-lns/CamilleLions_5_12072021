@@ -97,18 +97,36 @@ for (let i = 0; i < document.querySelectorAll('select').length; i++) {
 btn.addEventListener('click', function() {
     let retrievedObject = JSON.parse(localStorage.getItem('cart'));
     let cart;
+
     if(!retrievedObject) {
         cart = [objProduit];
     } else {
-        retrievedObject.push(objProduit);
-        cart = retrievedObject;
+        cart = ajoutProdDoublon(retrievedObject);
     }
     localStorage.setItem('cart', JSON.stringify(cart));
 })
 
+function ajoutProdDoublon(retrievedObject) {
+    let doublon = false;
+    let cart;
+
+    for(elt of retrievedObject){
+        if( objProduit.id == elt.id && objProduit.lenses == elt.lenses) {
+            alert("erreur");
+            doublon = true;
+            break;
+
+        } 
+    } 
+    if(doublon == false) {
+        retrievedObject.push(objProduit);
+    }
+    cart = retrievedObject;
+    return cart;
+}
 
 // message de confirmation d'ajout au panier
-var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+/*var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
 var alertTrigger = document.getElementById('add')
 
 function alert(message, type) {
@@ -122,4 +140,4 @@ if (alertTrigger) {
     alertTrigger.addEventListener('click', function () {
     alert('Le produit est ajouté au panier', 'secondary')
     })
-}
+}*/

@@ -182,7 +182,7 @@ document.addEventListener("click", (e) => {
             .then(function(info){
                 // alert("success");
                 localStorage.setItem('validation', JSON.stringify(info));
-                // window.location.replace("validation.html"); // change de page
+                window.location.replace("validation.html"); // change de page
             })
             .catch(function(error){
                 console.log(error);
