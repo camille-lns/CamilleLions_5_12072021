@@ -100,6 +100,8 @@ btn.addEventListener('click', function() {
 
     if(!retrievedObject) {
         cart = [objProduit];
+        document.getElementById("ModalTitle").innerText = `Féliciations ! `;
+        document.getElementById("modalText").innerText = `Votre produit a été ajouté au panier.`;
     } else {
         cart = ajoutProdDoublon(retrievedObject);
     }
@@ -112,32 +114,19 @@ function ajoutProdDoublon(retrievedObject) {
 
     for(elt of retrievedObject){
         if( objProduit.id == elt.id && objProduit.lenses == elt.lenses) {
-            alert("erreur");
             doublon = true;
+            document.getElementById("ModalTitle").innerText = `Attention ! `;
+            document.getElementById("modalText").innerText = `Ce produit est déjà présent dans votre panier.`;
             break;
-
         } 
     } 
     if(doublon == false) {
         retrievedObject.push(objProduit);
+        document.getElementById("ModalTitle").innerText = `Féliciations ! `;
+        document.getElementById("modalText").innerText = `Votre produit a été ajouté au panier.`;
+
     }
     cart = retrievedObject;
     return cart;
 }
 
-// message de confirmation d'ajout au panier
-/*var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-var alertTrigger = document.getElementById('add')
-
-function alert(message, type) {
-    var wrapper = document.createElement('div')
-    wrapper.innerHTML = `<div class="alert alert-` + type + ` alert-dismissible" role="alert">` + message + `<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
-
-    alertPlaceholder.append(wrapper)
-}
-
-if (alertTrigger) {
-    alertTrigger.addEventListener('click', function () {
-    alert('Le produit est ajouté au panier', 'secondary')
-    })
-}*/

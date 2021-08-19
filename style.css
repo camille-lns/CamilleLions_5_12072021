@@ -7,7 +7,9 @@ body {
 }
 
 .shrikhand {
-    font-family: 'Shrikhand'!important;
+    font-family: 'Sansita Swashed'!important;
+    font-size: 50px;
+    font-weight: 800!important;
 }
 
 .darkbrown {
