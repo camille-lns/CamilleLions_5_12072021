@@ -18,7 +18,7 @@ fetch("http://localhost:3000/api/cameras")
 
 
 function addProduit(produit, i) {
-    let myCard = `<div class="col-4 px-4">
+    let myCard = `<div class="col-sm-12 col-lg-4 col-md-12 px-4 marge">
     <div class="card p-0 ultralightbrown">
         <img src="${produit.imageUrl}" class="sepia img-fluid card-img-top">
         <div class="card-body">

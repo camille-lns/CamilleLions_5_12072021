@@ -1,13 +1,6 @@
-let myCart = JSON.parse(localStorage.getItem('cart'));
+var myCart = JSON.parse(localStorage.getItem('cart'));
 let total = 0;
 let tableauDeProduits = [];
-
-for (let idx=0; idx < myCart.length; idx++) {
-    displayProduct(myCart[idx], idx);
-    total += (myCart[idx].price * myCart[idx].quantity)/100;
-    tableauDeProduits.push(myCart[idx].id);
-    
-}
 
 
 // afficher un produit dans le panier
@@ -42,8 +35,8 @@ function displayProduct(elt, idx) {
 
                         <div class="row">
                             <div class="col-6">
-                                <select class="form-select">
-                                    <option selected="${elt.quantity}">${elt.quantity}</option>
+                                <select class="form-select" data-idx="${idx}">
+                                `+select(elt.quantity)+`
                                 </select>
                             </div>
 
@@ -57,23 +50,64 @@ function displayProduct(elt, idx) {
         </div>
     </div> `;
     
-    addEvListener(idx);
-
+    deleteProduct(idx);
+    modifyQuantity();
 };
 
+// créer les options du selecteur pour changer la quantité du produit
+function select(quantity) {
+    let outpout = ``;
+    for (i = 1; i < 6; i++) {
+        if(quantity == i) {
+            outpout += `<option selected value="`+i+`">`+i+`</option> `; 
+        } else {
+            outpout += `<option value="`+i+`">`+i+`</option> `;
+        }
+    }
+    return outpout; 
+}
 
-//supprimer un produit 
-function addEvListener(idx) { 
+function modifyQuantity() {
+    let newQuantity ;
+    document.addEventListener('change', function(e) {
+        if(e.target && e.target.tagName.toUpperCase() == `SELECT` ) {
+            newQuantity = parseInt(e.target.value); 
+            myCart[e.target.dataset.idx].quantity = newQuantity;
+            localStorage.setItem('cart', JSON.stringify(myCart));
+            modifyTotal();
+        }
+    });
+};
+
+function modifyTotal() {
+    total = 0;
+    for (let idx=0; idx < myCart.length; idx++) {
+        total += (myCart[idx].price * myCart[idx].quantity)/100;
+    }
+    document.getElementById("totalPrice").innerHTML = total + ` €`;
+}
+
+function calculTotal(myCart) {
+    for (let idx=0; idx < myCart.length; idx++) {
+        displayProduct(myCart[idx], idx);
+        total += (myCart[idx].price * myCart[idx].quantity)/100;
+        tableauDeProduits.push(myCart[idx].id);
+    }
+    document.getElementById("totalPrice").innerHTML = total + ` €`;
+}
+
+
+function deleteProduct(idx) { 
     document.addEventListener('click', function(e) {
-            if(e.target && e.target.id == `supprimer${idx}`) {
-                total -= myCart[idx].price/100;
-                document.getElementById(`carteProduit${idx}`).remove();
-                document.getElementById("totalPrice").innerHTML = `${total} € `;
-                myCart.splice(idx, 1); 
-                localStorage.removeItem('cart');
-                localStorage.setItem('cart', JSON.stringify(myCart));
-                modifyIdx();
-            }
+        if(e.target && e.target.id == `supprimer${idx}`) {
+            total -= myCart[idx].price*myCart[idx].quantity/100;
+            document.getElementById(`carteProduit${idx}`).remove();
+            myCart.splice(idx, 1); 
+            localStorage.removeItem('cart');
+            localStorage.setItem('cart', JSON.stringify(myCart));
+            modifyIdx();
+            document.getElementById("totalPrice").innerHTML = total + ` €`;
+        }
     });
 };
 
@@ -86,10 +120,6 @@ function modifyIdx() {
 
     }
 }
-
-// afficher le total
-document.getElementById("totalPrice").innerHTML = `${total} € `;
-
 
 const confBtn = document.getElementById('conf'); 
 confBtn.addEventListener('click', function() {
@@ -194,3 +224,7 @@ document.addEventListener("click", (e) => {
     }
     
 })
+
+
+
+calculTotal(myCart);

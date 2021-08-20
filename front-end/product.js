@@ -100,7 +100,7 @@ btn.addEventListener('click', function() {
 
     if(!retrievedObject) {
         cart = [objProduit];
-        document.getElementById("ModalTitle").innerText = `Féliciations ! `;
+        document.getElementById("ModalTitle").innerText = `Félicitations ! `;
         document.getElementById("modalText").innerText = `Votre produit a été ajouté au panier.`;
     } else {
         cart = ajoutProdDoublon(retrievedObject);
@@ -122,7 +122,7 @@ function ajoutProdDoublon(retrievedObject) {
     } 
     if(doublon == false) {
         retrievedObject.push(objProduit);
-        document.getElementById("ModalTitle").innerText = `Féliciations ! `;
+        document.getElementById("ModalTitle").innerText = `Félicitations ! `;
         document.getElementById("modalText").innerText = `Votre produit a été ajouté au panier.`;
 
     }
