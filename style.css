@@ -1,5 +1,6 @@
 body {
     background-color: #f7f5f2;
+    
 }
 
 .marge {
@@ -61,7 +62,31 @@ hr {
 }
 
 #totalPrice {
-    font-size: 27px;
+    font-size: calc(1.325rem + .9vw);
     padding-left: 20px;
 }
 
+.totalText {
+    font-size: calc(1.325rem + .9vw);
+    font-weight: 600;
+}
+
+.valid {
+    min-height:100%;
+    margin:0 auto;
+    position:relative;
+}
+
+.validationFooter {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    }
+
+@media screen and (min-width: 992px) {
+    .validationFooterMobile {
+        position:absolute;
+        bottom:0;
+        width:100%;
+        }
+}

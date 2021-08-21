@@ -9,17 +9,17 @@ function displayProduct(elt, idx) {
     <div id="carteProduit${idx}" class="carteProduit">
         <div class="card ultralightbrown marge">
             <div class="row justify-content-start">
-                <div class="col-3 ">
+                <div class="col-lg-4 col-sm-5 col-6">
                     <!-- Insertion de l'image -->
-                    <img src="${elt.img}" class="sepia img-thumbnail ultralightbrown">
+                    <img src="${elt.img}" class="sepia img-fluid card-img-top ultralightbrown py-3 px-2">
                 </div>
 
-                <div class="col">
+                <div class="col-6">
                     <div class="card-body d-flex flex-column justify-content-between heightProductBox">
                         <div>
                             <div>
                                 <!-- Insertion du nom du produit -->
-                                <h3>${elt.name}</h3>
+                                <h3 class="reponsive">${elt.name}</h3>
                             </div>
 
                             <div>
@@ -33,16 +33,18 @@ function displayProduct(elt, idx) {
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-6">
+                        <div class="row d-flex flex-md-row flex-column">
+                            <div class="col-lg-6 col-md-3 col pb-2">
                                 <select class="form-select" data-idx="${idx}">
                                 `+select(elt.quantity)+`
                                 </select>
                             </div>
 
-                            <button id="supprimer${idx}" class="col-6 supprimer">
-                                Supprimer
-                            </button>
+                            <div class="col-lg-6 col pe-2">
+                                <button id="supprimer${idx}" class="supprimer btn btn-secondary">
+                                    Supprimer
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
