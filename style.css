@@ -17,6 +17,10 @@ body {
     color: #3c3424; 
 }
 
+.darkbrown:hover {
+    color:#746446;
+}
+
 .ultralightbrown{ 
     background-color: rgba(222,228,211, 0.2)!important;
 }
@@ -27,6 +31,17 @@ body {
 
 a {
     font-size: 1.3em;
+    text-decoration: none;
+    color: #3c3424;
+    transition: 0.25s linear;
+}
+
+a:hover {
+    color:#746446;
+}
+
+.card-body a:hover {
+    color:#bcad91;
 }
 
 .link {
