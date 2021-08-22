@@ -109,6 +109,7 @@ function deleteProduct(idx) {
             localStorage.setItem('cart', JSON.stringify(myCart));
             modifyIdx();
             document.getElementById("totalPrice").innerHTML = total + ` €`;
+            disableConf();
         }
     });
 };
@@ -163,13 +164,55 @@ confBtn.addEventListener('click', function() {
 </div>`
 })
 
+function disableConf() {
+    if (myCart.length > 0) {
+        confBtn.disabled = false;
+    } else {
+        confBtn.disabled = true;
+        document.getElementById('userInfo').innerHTML = ``;
+    }
+}
 
-// validation du formulaire 
+function verifyInfo(contact) {
+    const regexName = /^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+))$/;
+    const regexCity = /^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+)){1,10}$/;
+    const regexMail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\.[a-z]{2,4}$/;
+    const regexAddress = /^(([a-zA-ZÀ-ÿ0-9]+[\s\-]{1}[a-zA-ZÀ-ÿ0-9]+)){1,40}$/;
+
+    if (
+        (regexMail.test(contact.email) == true) &&
+        (regexName.test(contact.firstName) == true) &&
+        (regexName.test(contact.lastName) == true) &&
+        (regexCity.test(contact.city) == true) &&
+        (regexAddress.test(contact.address) == true)
+    ) {
+        return true;
+    } 
+    return false;
+}
+
 const order = document.getElementById("order");
-const regexName = /^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+))$/;
-const regexCity = /^(([a-zA-ZÀ-ÿ]+[\s\-]{1}[a-zA-ZÀ-ÿ]+)|([a-zA-ZÀ-ÿ]+)){1,10}$/;
-const regexMail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\.[a-z]{2,4}$/;
-const regexAddress = /^(([a-zA-ZÀ-ÿ0-9]+[\s\-]{1}[a-zA-ZÀ-ÿ0-9]+)){1,40}$/;
+
+function sendForm(order) {
+    fetch(`http://localhost:3000/api/cameras/order`, {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(order),
+            })
+            .then(function(res){
+                if (res.ok)
+                    return res.json();
+            })
+            .then(function(info){
+                localStorage.setItem('validation', JSON.stringify(info));
+                window.location.replace("validation.html"); // change de page
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+}
 
 document.addEventListener("click", (e) => {
     if(e.target && e.target.id == `order`) {
@@ -184,49 +227,22 @@ document.addEventListener("click", (e) => {
         };
 
         // vérification du formulaire de contact
-        if (
-            (regexMail.test(contact.email) == true) &
-            (regexName.test(contact.firstName) == true) &
-            (regexName.test(contact.lastName) == true) &
-            (regexCity.test(contact.city) == true) &
-            (regexAddress.test(contact.address) == true)
-        ) {
+        if (verifyInfo(contact)) {
             localStorage.setItem(`contactClient`, JSON.stringify(contact))  
 
             const order = {
                 "products" : tableauDeProduits,
                 "contact" : JSON.parse(localStorage.contactClient)
-            }
-            console.log(order);
-            
+            }            
             // envoyer les infos en POST
-            fetch(`http://localhost:3000/api/cameras/order`, {
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify(order),
-            })
-            .then(function(res){
-                if (res.ok)
-                    return res.json();
-            })
-            .then(function(info){
-                // alert("success");
-                localStorage.setItem('validation', JSON.stringify(info));
-                window.location.replace("validation.html"); // change de page
-            })
-            .catch(function(error){
-                console.log(error);
-            })
+            sendForm(order);
 
         } else {
-            alert("Merci de renseigner le formulaire entier.");
+            alert("Merci de renseigner correctement le formulaire entier.");
         }
     }
     
 })
 
-
-
 calculTotal(myCart);
+disableConf();

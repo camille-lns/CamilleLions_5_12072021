@@ -52,18 +52,6 @@ function chooseLenses(produit) {
     }
 }
 
-// attribuer la quantité à ObjProduit
-document.getElementById('quantity')
-        .addEventListener('change', function(event) {
-            let qty = event.target.value;
-            objProduit.quantity = parseInt(qty);
-        })
-
-// attribuer la lentille à ObjProduit
-document.getElementById('lentille')
-        .addEventListener('change', function(event) {
-            objProduit.lenses = event.target.value; 
-        })
 
 // garder en mémoire les infos du produit pour envoyer vers local storage
 function objProduitInfo(produit) {
@@ -71,6 +59,19 @@ function objProduitInfo(produit) {
     objProduit.price = produit.price;
     objProduit.id = produit._id;
     objProduit.img = produit.imageUrl;
+
+    // attribuer la quantité à ObjProduit
+    document.getElementById('quantity')
+    .addEventListener('change', function(event) {
+        let qty = event.target.value;
+        objProduit.quantity = parseInt(qty);
+    })
+
+    // attribuer la lentille à ObjProduit
+    document.getElementById('lentille')
+    .addEventListener('change', function(event) {
+        objProduit.lenses = event.target.value; 
+    })
 }
 
 const btn = document.getElementById('add');

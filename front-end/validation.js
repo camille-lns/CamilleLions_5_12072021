@@ -1,7 +1,7 @@
 function confirmationCommande(){
     if (localStorage.length == 0)
     {
-        document.getElementById("confirmation").innerHTML = `Oups.`;
+        document.getElementById("confirmation").innerHTML = `Oups. Il semblerait qu'il y ait eu une erreur. `;
     }
     else{
         let validation = localStorage.getItem('validation');

@@ -8,7 +8,6 @@ fetch("http://localhost:3000/api/cameras")
 .then (function(tableauProduits) {
     for (let i = 0; i < tableauProduits.length; i++) {
         addProduit(tableauProduits[i], i);
-        console.log(tableauProduits[i]);
     }
 })
 
