@@ -2,7 +2,6 @@ var myCart = JSON.parse(localStorage.getItem('cart'));
 let total = 0;
 let tableauDeProduits = [];
 
-
 // afficher un produit dans le panier
 function displayProduct(elt, idx) {
     document.getElementById("productDisplay").innerHTML += ` 
